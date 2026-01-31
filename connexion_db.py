@@ -1,23 +1,36 @@
 from flask import Flask, request, render_template, redirect, url_for, abort, flash, session, g
-
+import pymysql
+import os
+from urllib.parse import urlparse
 import pymysql.cursors
 
 def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        #
-        db = g._database = pymysql.connect(
-            host="localhost",
-            # host="serveurmysql",
-            user="esteban",
-            password="secret",
-            database="BDD_S2",
-            charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor
-        )
-        # à activer sur les machines personnelles :
-        activate_db_options(db)
-    return db
+    if 'db' not in g:
+        # Cas 1 : On est sur Render (La variable DATABASE_URL existe)
+        if os.environ.get('DATABASE_URL'):
+            url = urlparse(os.environ.get('DATABASE_URL'))
+            g.db = pymysql.connect(
+                host=url.hostname,
+                user=url.username,
+                password=url.password,
+                database=url.path[1:],
+                port=url.port,
+                cursorclass=pymysql.cursors.DictCursor
+            )
+        # Cas 2 : On est sur ton PC (Localhost)
+        else:
+            g.db = pymysql.connect(
+                host="localhost",
+                user="esteban",  # Ton user local
+                password="secret", # Ton mdp local
+                database="BDD_S2",
+                charset='utf8mb4',
+                cursorclass=pymysql.cursors.DictCursor
+            )
+            activate_db_options(g.db)
+    return g.db
+
+
 
 def activate_db_options(db):
     cursor = db.cursor()
