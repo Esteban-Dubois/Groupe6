@@ -27,7 +27,7 @@ def get_db():
                 charset='utf8mb4',
                 cursorclass=pymysql.cursors.DictCursor
             )
-            activate_db_options(g.db)
+            #activate_db_options(g.db)
     return g.db
 
 
