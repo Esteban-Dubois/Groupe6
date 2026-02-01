@@ -6,7 +6,7 @@ import pymysql.cursors
 
 def get_db():
     if 'db' not in g:
-        # Cas 1 : On est sur Render (La variable DATABASE_URL existe)
+
         if os.environ.get('DATABASE_URL'):
             url = urlparse(os.environ.get('DATABASE_URL'))
             g.db = pymysql.connect(
@@ -17,13 +17,13 @@ def get_db():
                 port=url.port,
                 cursorclass=pymysql.cursors.DictCursor
             )
-        # Cas 2 : On est sur ton PC (Localhost)
+
         else:
             g.db = pymysql.connect(
-                host="localhost",
-                user="esteban",  # Ton user local
-                password="secret", # Ton mdp local
-                database="BDD_S2",
+                host=os.environ.get('DB_HOST'),
+                user=os.environ.get('DB_USER'),
+                password=os.environ.get('DB_PASSWORD'),
+                database=os.environ.get('DB_NAME'),
                 charset='utf8mb4',
                 cursorclass=pymysql.cursors.DictCursor
             )
