@@ -144,7 +144,7 @@ def fct_fixtures_load():
      (3.50, '3 chandelles 20 effets', 250, 'Un mini-bouquet prêt à l\'emploi combinant des effets or et argent.', 15, 25, 10, 15, 95, 'feu_artifice15.png', 'CE F2', 'Succession de comètes', 'Chine', 4, 2),
      (7.15, 'sachet de 3 chandelles monocoup intermezzo', 55, 'Une boîte conçue pour offrir une séquence de divertissement prolongée et fascinante.', 25, 5, 28, 15, 115, 'feu_artifice16.png', 'CE F2', 'Monocoup puissant', 'Chine', 5, 2),
      (5.50, 'Ardi Scène Argent', 110, 'Ardi Scène ArgentUn grand cône volcanique produisant une éruption spectaculaire d\'étincelles argentées.', 2, 40, Null, 2, 50, 'feu_artifice17.png', 'CE T1', 'Gerbe froide', 'Chine', 8, 6),
-     (5.50, 'Ardi Scène Or', 75, 'Un petit artifice de sol qui projette une colonne d\'étincelles crépitantes'., 2, 25, Null, 2, 50, 'feu_artifice18.png', 'CE T1', 'Gerbe froide', 'Chine', 2, 6),
+     (5.50, 'Ardi Scène Or', 75, 'Un petit artifice de sol qui projette une colonne d\'étincelles crépitantes.', 2, 25, Null, 2, 50, 'feu_artifice18.png', 'CE T1', 'Gerbe froide', 'Chine', 2, 6),
      (4.8, 'Pot fumigène 1mn Orange', 15, 'Des fontaines de scène produisant un jet d\'étincelles élégant, disponible en finition argentée.', 0, 60, Null, 8, 20, 'feu_artifice19.png', 'CE P1', 'Nuage opaque', 'Chine', 4, 3),
      (4.8, 'Pot de fumigène 1mn Rose', 400, 'Des fontaines de scène produisant un jet d\'étincelles élégant, disponible en finition dorée.', 0, 60, Null, 8, 20, 'feu_artifice20.png', 'CE P1', 'Nuage opaque', 'Chine', 8, 3);
      '''
