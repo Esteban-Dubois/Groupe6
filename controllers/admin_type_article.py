@@ -47,7 +47,11 @@ def valid_add_type_article():
 def delete_type_article():
     id_type_article = request.args.get('id_type_article', '')
     mycursor = get_db().cursor()
-
+    sql_fusee = "DELETE FROM fusee WHERE categorie_id = %s;"
+    mycursor.execute(sql_fusee, (id_type_article,))
+    sql_type = "DELETE FROM categorie WHERE id_categorie = %s;"
+    mycursor.execute(sql_type, (id_type_article,))
+    get_db().commit()
     flash(u'suppression type article , id : ' + id_type_article, 'alert-success')
     return redirect('/admin/type-article/show')
 
