@@ -17,7 +17,7 @@ def client_article_show():                                 # remplace client_ind
     sql = '''   SELECT id_fusee AS article_id,
     prix_fusee AS prix, 
     stock_fusee AS stock,
-    description_fusee AS nom,
+    nom_fusee AS nom,
     image_fusee AS image, 
     categorie.libelle_categorie AS libelle
     FROM fusee
