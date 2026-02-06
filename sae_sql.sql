@@ -65,7 +65,7 @@ CREATE TABLE ligne_panier (
     date_ajout DATE,
     PRIMARY KEY (utilisateur_id_panier, fusee_id_panier),
     FOREIGN KEY (utilisateur_id_panier) REFERENCES utilisateur(id_utilisateur),
-    FOREIGN KEY (fusee_id_panier) REFERENCES fusee(id_fusee) 
+    FOREIGN KEY (fusee_id_panier) REFERENCES fusee(id_fusee)
 );
 
 CREATE TABLE commande (
@@ -88,7 +88,7 @@ CREATE TABLE ligne_commande (
     FOREIGN KEY (fusee_id_commande) REFERENCES fusee(id_fusee)
 );
 
-INSERT INTO couleur (libelle_couleur) VALUES  
+INSERT INTO couleur (libelle_couleur) VALUES
 ('Vert'),
 ('Jaune'),
 ('Orange'),
@@ -125,7 +125,7 @@ INSERT INTO utilisateur(login,email,password,role,nom,est_actif) VALUES
 
 INSERT INTO fusee (prix_fusee, nom_fusee, stock_fusee, description_fusee, hauteur_explosion, duree_explosion, calibre_fusee, distance_securite, niveau_sonore, image_fusee, certification, effet, pays, couleur_id, categorie_id) VALUES
 (12.50, 'Assortiment 10 fusées electron', 150, 'assortiment 10 fusées electron', 20, 0, 15, 8, 90, 'feu_artifice1.png', 'CE F2', 'Étoiles néon', 'Chine', 4, 1),
-(45.00, 'Fire images', 30, 'fire images', 25, 20, 20, 8, 105, 'feu_artifice2.png', 'CE F2', 'Pluie d''or et d''argent', 'Pologne', 2, 4),
+(45.00, 'Fire images', 30, 'fire images', 25, 20, 20, 8, 105, 'feu_artifice2.png', 'CE F2', 'Pluie d\'or et d\'argent', 'Pologne', 2, 4),
 (8.90, 'Assortiment 10 fusées cannon ball power pro', 200, 'assortiment 10 fusées cannon ball power pro', 40, 0, 30, 25, 115, 'feu_artifice3.png', 'CE F3', 'Grosses pivoines', 'Chine', 3, 1),
 (19.99, 'Compact magic power', 80, 'compact magic power', 30, 25, 20, 8, 105, 'feu_artifice4.png', 'CE F2', 'Palmiers scintillants', 'Chine', 7, 4),
 (5.50, 'Feu d''artifice portable bouquet or et argent prestige', 500, 'feu d''artifice portable bouquet or et argent prestige', 35, 35, 30, 25, 118, 'feu_artifice5.png', 'CE F3', 'Pluie de comètes', 'Chine', 1, 5),
