@@ -6,13 +6,10 @@
     {% if items_filtre is defined %}
     <div class="form-group">
         <h4>Types articles</h4>
-        {% if libelle_articles is defined %}
-        <select class="form-select" name="id_type_article" id="id_type_article" required>
-            <option value=""> Sélectionnez le type</option>
+        {% if libelle_articles is defined %}        
             {% for type in libelle_articles %}
-            <option value="{{ type.libelle }}"> {{ type.libelle }} </option>
+                <input type="checkbox" value="{{ type.libelle }}"> {{ type.libelle }} </input>
             {% endfor %}
-        </select>
         {% endif %}
         {% for item_filtre in items_filtre %}
         <input type="checkbox" name="filter_types" value="{{ item_filtre.id_type_article }}" {% set
