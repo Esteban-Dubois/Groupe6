@@ -10,7 +10,7 @@
         <select class="form-select" name="id_type_article" id="id_type_article" required>
             <option value=""> Sélectionnez le type</option>
             {% for type in libelle_articles %}
-            <option value="{{ libelle_articles.libelle }}"> {{ libelle_articles.libelle }} </option>
+            <option value="{{ type.libelle }}"> {{ type.libelle }} </option>
             {% endfor %}
         </select>
         {% endif %}
