@@ -6,11 +6,11 @@
     {% if items_filtre is defined %}
     <div class="form-group">
         <h4>Types articles</h4>
-        {% if articles is defined %}
-        <select class="form-select fond-jaune" name="marque_moto_id" id="marque_moto_id" required>
+        {% if libelle_articles is defined %}
+        <select class="form-select" name="id_type_article" id="id_type_article" required>
             <option value=""> Sélectionnez le type</option>
-            {% for type in articles %}
-            <option value="{{ type.libelle }}"> {{ type.libelle }} </option>
+            {% for type in libelle_articles %}
+            <option value="{{ libelle_articles.libelle }}"> {{ libelle_articles.libelle }} </option>
             {% endfor %}
         </select>
         {% endif %}

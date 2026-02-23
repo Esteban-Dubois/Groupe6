@@ -24,6 +24,10 @@ def client_article_show():                                 # remplace client_ind
     JOIN categorie ON fusee.categorie_id = categorie.id_categorie;'''
     mycursor.execute(sql)
     articles = mycursor.fetchall()
+    
+    sql = 'SELECT libelle_categorie AS libelle FROM categorie'
+    mycursor.execute(sql)
+    libelle_articles = mycursor.fetchall()
     list_param = []
     condition_and = ""
     # utilisation du filtre
@@ -47,4 +51,5 @@ def client_article_show():                                 # remplace client_ind
                            , articles_panier=articles_panier
                            #, prix_total=prix_total
                            , items_filtre=types_article
+                           , libelle_articles=libelle_articles
                            )
