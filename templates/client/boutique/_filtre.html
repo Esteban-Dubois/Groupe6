@@ -8,7 +8,7 @@
         <h4>Types articles</h4>
         {% if libelle_articles is defined %}        
             {% for type in libelle_articles %}
-                <input type="checkbox" value="{{ type.libelle }}"> {{ type.libelle }} </input>
+                <input type="checkbox" value="{{ type.libelle }}"> {{ type.libelle }} </input> <br>
             {% endfor %}
         {% endif %}
         {% for item_filtre in items_filtre %}
