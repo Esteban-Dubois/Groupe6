@@ -39,7 +39,7 @@ def client_panier_add():
 # ajout dans le panier d'un article
 
 
-    sql = "SELECT * FROM ligne_panier WHERE id_fusee = %s AND utilisateur_id=%s"
+    sql = "SELECT * FROM ligne_panier WHERE fusee_id_panier = %s AND utilisateur_id=%s"
     mycursor.execute(sql, (id_article, id_client))
     article_panier = mycursor.fetchone()
     
@@ -48,11 +48,11 @@ def client_panier_add():
     
     if not (article_panier is None) and article_panier['quantite'] >= 1:
         tuple_update = (quantite, id_client, id_article)
-        sql = "UPDATE ligne_panier SET quantite = quantite+%s WHERE utilisateur_id = %s AND id_fusee=%s"
+        sql = "UPDATE ligne_panier SET quantite = quantite+%s WHERE utilisateur_id = %s AND fusee_id_panier=%s"
         mycursor.execute(sql, tuple_update)
     else:
         tuple_insert = (id_client, id_article, quantite)
-        sql = "INSERT INTO ligne_panier(utilisateur_id,id_fusee,quantite, date_ajout) VALUES (%s,%s,%s, current_timestamp )"
+        sql = "INSERT INTO ligne_panier(utilisateur_id,fusee_id_panier,quantite, date_ajout) VALUES (%s,%s,%s, current_timestamp )"
         mycursor.execute(sql, tuple_insert)
 
     get_db().commit()
