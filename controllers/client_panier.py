@@ -39,6 +39,10 @@ def client_panier_add():
 # ajout dans le panier d'un article
 
 
+    sql = "SELECT * FROM ligne_panier WHERE stylo_id = %s AND utilisateur_id=%s"
+    mycursor.execute(sql, (id_article, id_client))
+    article_panier = mycursor.fetchone()
+    
     return redirect('/client/article/show')
 
 @client_panier.route('/client/panier/delete', methods=['POST'])
