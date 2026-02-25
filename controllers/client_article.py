@@ -14,7 +14,7 @@ def client_article_show():                                 # remplace client_ind
     mycursor = get_db().cursor()
     id_client = session['id_user']
 
-    sql = '''   SELECT id_fusee AS article_id,
+    sql = '''   SELECT id_fusee AS id_article,
     prix_fusee AS prix, 
     stock_fusee AS stock,
     nom_fusee AS nom,
