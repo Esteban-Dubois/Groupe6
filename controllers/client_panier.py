@@ -15,6 +15,11 @@ def client_panier_add():
     id_client = session['id_user']
     id_article = request.form.get('id_article')
     quantite = request.form.get('quantite')
+    
+    print("Formulaire complet reçu :", request.form)
+    print("id_article :", repr(id_article))
+    print("quantite :", repr(quantite))
+    
     # ---------
     #id_declinaison_article=request.form.get('id_declinaison_article',None)
     id_declinaison_article = 1
