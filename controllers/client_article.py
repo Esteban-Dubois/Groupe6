@@ -38,19 +38,35 @@ def client_article_show():                                 # remplace client_ind
     # pour le filtre
     types_article = []
 
-    sql = """SELECT * FROM ligne_panier WHERE utilisateur_id_panier = %s"""
-    mycursor.execute(sql,( id_client))
-    articles_panier = [mycursor.fetchone()]
+    sql = '''
+        SELECT f.nom_fusee AS nom, 
+               lp.quantite AS quantite, 
+               f.prix_fusee AS prix, 
+               f.id_fusee AS id_article,
+               f.stock_fusee AS stock
+               
+        FROM ligne_panier lp
+        JOIN fusee f ON lp.fusee_id_panier = f.id_fusee
+        WHERE lp.utilisateur_id_panier = %s
+    '''
+    
+    mycursor.execute(sql, (id_client,)) 
+    articles_panier = mycursor.fetchall()
 
     if len(articles_panier) >= 1:
-        sql = ''' SELECT SUM() '''
-        prix_total = None
+        sql = ''' SELECT SUM(ligne_panier.quantite * fusee.prix_fusee) AS total
+                  FROM fusee
+                  JOIN ligne_panier ON fusee.id_fusee = ligne_panier.fusee_id_panier
+                  WHERE ligne_panier.utilisateur_id_panier = %s
+        '''
+        mycursor.execute(sql, (id_client,))
+        prix_total = mycursor.fetchone()['total']
     else:
         prix_total = None
     return render_template('client/boutique/panier_article.html'
                            , articles=articles
                            , articles_panier=articles_panier
-                           #, prix_total=prix_total
+                           , prix_total=prix_total
                            , items_filtre=types_article
                            , libelle_articles=libelle_articles
                            )
