@@ -38,12 +38,12 @@ def client_article_show():                                 # remplace client_ind
     # pour le filtre
     types_article = []
 
-    sql = """SELECT * FROM ligne_panier WHERE id_client = %s"""
+    sql = """SELECT * FROM ligne_panier WHERE utilisateur_id_panier = %s"""
     mycursor.execute(sql,( id_client))
-    articles_panier = mycursor.fetchone()
+    articles_panier = [mycursor.fetchone()]
 
     if len(articles_panier) >= 1:
-        sql = ''' calcul du prix total du panier '''
+        sql = ''' SELECT SUM() '''
         prix_total = None
     else:
         prix_total = None

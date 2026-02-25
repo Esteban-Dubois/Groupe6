@@ -19,9 +19,11 @@
                                 <small style="color: #d941c2">({{ item_panier.libelle_taille }})</small>
                             {% endif %}
                             </td>
+                            {% if prix_total %}
                             <td>{{item_panier.quantite}}</td>
                             <td>{{item_panier.prix}}</td>
                             <td>{{ "{:,.2f} €".format((item_panier.prix * item_panier.quantite)) }}{#{(panier.article.prix * panier.quantite)|number_format(2) }#}</td>
+                            {% endif %}
                             <td>
 {# #}                            {% if item_panier.stock is defined %}
 {# #}                               {% if item_panier.stock > 0 %}
