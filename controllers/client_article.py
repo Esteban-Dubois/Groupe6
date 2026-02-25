@@ -38,8 +38,9 @@ def client_article_show():                                 # remplace client_ind
     # pour le filtre
     types_article = []
 
-
-    articles_panier = []
+    sql = """SELECT * FROM ligne_panier WHERE id_client = %s"""
+    mycursor.execute(sql,( id_client))
+    articles_panier = mycursor.fetchone()
 
     if len(articles_panier) >= 1:
         sql = ''' calcul du prix total du panier '''
