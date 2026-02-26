@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/reivax/Documents/IUT/S2/SAE_E-COMMERCE/Groupe6/.venv
+set -gx VIRTUAL_ENV /home/citrouille/Documents/IUT/S2/SAE-2.03_2.04_2.05/Livrable2.3_BDD/Groupe6/.venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
