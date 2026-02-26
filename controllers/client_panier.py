@@ -105,11 +105,15 @@ def client_panier_vider():
     mycursor.execute(sql, (client_id, ))
     items_panier = mycursor.fetchall()
     for item in items_panier:
+        sql = 'SELECT quantite FROM ligne_panier WHERE utilisateur_id_panier = %s AND fusee_id_panier=%s'
+        mycursor.execute(sql, (client_id, item['fusee_id_panier']))
+        quantite = mycursor.fetchone()['quantite']
         sql = "DELETE FROM ligne_panier WHERE  fusee_id_panier = %s and utilisateur_id_panier = %s"
         mycursor.execute(sql,(item['fusee_id_panier'], client_id))
         get_db().commit()
-        sql2=''' mise à jour du stock de l'article : stock = stock + qté de la ligne pour l'article'''
-        "get_db().commit()"
+        sql = '''UPDATE fusee SET stock_fusee = stock_fusee+%s WHERE id_fusee = %s'''
+        mycursor.execute(sql, (quantite, item['fusee_id_panier']))
+        get_db().commit()
     return redirect('/client/article/show')
 
 
