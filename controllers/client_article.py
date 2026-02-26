@@ -44,7 +44,6 @@ def client_article_show():                                 # remplace client_ind
                f.prix_fusee AS prix, 
                f.id_fusee AS id_article,
                f.stock_fusee AS stock
-               
         FROM ligne_panier lp
         JOIN fusee f ON lp.fusee_id_panier = f.id_fusee
         WHERE lp.utilisateur_id_panier = %s

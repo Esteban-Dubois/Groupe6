@@ -157,9 +157,3 @@ INSERT INTO ligne_commande (commande_id, fusee_id_commande, prix, quantite) VALU
 (3, 3, 8.90, 1),
 (3, 12, 3.5, 2),
 (3, 14, 95, 1);
-
-
-SELECT * FROM ligne_panier;
-SELECT ligne_panier.quantite * fusee.prix_fusee
-FROM fusee
-JOIN ligne_panier ON fusee.id_fusee = ligne_panier.fusee_id_panier

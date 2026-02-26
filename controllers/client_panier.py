@@ -55,6 +55,9 @@ def client_panier_add():
         tuple_insert = (id_client, id_article, quantite)
         sql = "INSERT INTO ligne_panier(utilisateur_id_panier,fusee_id_panier,quantite, date_ajout) VALUES (%s,%s,%s, current_timestamp )"
         mycursor.execute(sql, tuple_insert)
+        
+    sql = '''UPDATE fusee SET stock_fusee = stock_fusee-%s WHERE id_fusee = %s'''
+    mycursor.execute(sql, (quantite, id_article))
 
     get_db().commit()
     
@@ -82,7 +85,9 @@ def client_panier_delete():
         sql = ''' DELETE FROM ligne_panier
                   WHERE utilisateur_id_panier = %s AND fusee_id_panier=%s
         '''
-        mycursor.execute(sql, (id_client, id_article)) 
+        mycursor.execute(sql, (id_client, id_article))
+    sql = '''UPDATE fusee SET stock_fusee = stock_fusee+1 WHERE id_fusee = %s'''
+    mycursor.execute(sql, (id_article, ))
 
     # mise à jour du stock de l'article disponible
     get_db().commit()
@@ -115,6 +120,9 @@ def client_panier_delete_line():
     id_article = request.form.get('id_article')
     #id_declinaison_article = request.form.get('id_declinaison_article')
     
+    sql = 'SELECT quantite FROM ligne_panier WHERE utilisateur_id_panier = %s AND fusee_id_panier=%s'
+    mycursor.execute(sql, (id_client, id_article))
+    quantite = mycursor.fetchone()['quantite']
 
     sql = ''' SELECT * FROM ligne_panier WHERE fusee_id_panier = %s AND utilisateur_id_panier=%s '''
     mycursor.execute(sql, (id_article, id_client)) 
@@ -126,7 +134,8 @@ def client_panier_delete_line():
     mycursor.execute(sql, (id_client, id_article)) 
     article_panier=mycursor.fetchone()
     
-    sql2=''' mise à jour du stock de l'article : stock = stock + qté de la ligne pour l'article'''
+    sql = '''UPDATE fusee SET stock_fusee = stock_fusee+%s WHERE id_fusee = %s'''
+    mycursor.execute(sql, (quantite, id_article))
 
     get_db().commit()
     return redirect('/client/article/show')
