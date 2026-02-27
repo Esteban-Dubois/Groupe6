@@ -14,7 +14,14 @@ client_commande = Blueprint('client_commande', __name__,
 def client_commande_valide():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    sql = ''' SELECT * FROM ligne_panier WHERE utilisateur_id_panier = %s
+    sql = ''' 
+        SELECT f.nom_fusee AS nom, 
+               lp.quantite AS quantite, 
+               f.prix_fusee AS prix, 
+               f.id_fusee AS id_article
+        FROM ligne_panier lp
+        JOIN fusee f ON lp.fusee_id_panier = f.id_fusee
+        WHERE lp.utilisateur_id_panier = %s
     '''
     mycursor.execute(sql,(id_client, ))
     articles_panier = mycursor.fetchall()
