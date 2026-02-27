@@ -19,7 +19,7 @@ def admin_commande_show():
     mycursor = get_db().cursor()
     admin_id = session['id_user']
     sql = '''   
-    SELECT commande.id_commande, utilisateur.login, commande.date_achat, SUM(ligne_commande.quantite) AS nbr_articles, SUM(ligne_commande.prix*ligne_commande.quantite) AS prix_total, etat.libelle_etat AS libelle FROM commande
+    SELECT commande.id_commande, commande.etat_id, utilisateur.login, commande.date_achat, SUM(ligne_commande.quantite) AS nbr_articles, SUM(ligne_commande.prix*ligne_commande.quantite) AS prix_total, etat.libelle_etat AS libelle FROM commande
     JOIN utilisateur ON utilisateur.id_utilisateur = commande.utilisateur_id_commande
     JOIN ligne_commande ON ligne_commande.commande_id = commande.id_commande
     JOIN etat ON etat.id_etat = commande.etat_id
