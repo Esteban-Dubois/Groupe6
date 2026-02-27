@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS ligne_commande;
 DROP TABLE IF EXISTS ligne_panier;
-DROP TABLE IF EXISTS concerne;
 DROP TABLE IF EXISTS fusee;
 DROP TABLE IF EXISTS couleur;
 DROP TABLE IF EXISTS categorie;
@@ -77,7 +76,9 @@ CREATE TABLE adresse (
     code_postal VARCHAR(5),
     ville VARCHAR(255),
     date_utilisation DATE,
-    PRIMARY KEY (id_adresse)
+    utilisateur_id_adresse INT NOT NULL,
+    PRIMARY KEY (id_adresse),
+    FOREIGN KEY (utilisateur_id_adresse) REFERENCES utilisateur(id_utilisateur)
 );
 
 CREATE TABLE commande (
@@ -104,14 +105,6 @@ CREATE TABLE ligne_commande (
     FOREIGN KEY (fusee_id_commande) REFERENCES fusee(id_fusee)
 );
 
-CREATE TABLE concerne (
-    utilisateur_id_adresse INT NOT NULL,
-    adresse_id_utilisateur INT NOT NULL,
-    PRIMARY KEY (utilisateur_id_adresse, adresse_id_utilisateur),
-    FOREIGN KEY (utilisateur_id_adresse) REFERENCES utilisateur(id_utilisateur),
-    FOREIGN KEY (adresse_id_utilisateur) REFERENCES adresse(id_adresse)
-);
-
 INSERT INTO couleur (libelle_couleur) VALUES  
 ('Vert'), ('Jaune'), ('Orange'), ('Rouge'), ('Rose'), ('Violet'), ('Bleu'), ('Cyan');
 
@@ -127,9 +120,11 @@ INSERT INTO utilisateur(login,email,password,role,nom_utilisateur,est_actif) VAL
 ('client','client@client.fr','pbkdf2:sha256:1000000$jTcSUnFLWqDqGBJz$bf570532ed29dc8e3836245f37553be6bfea24d19dfb13145d33ab667c09b349','ROLE_client','client',1),
 ('client2','client2@client2.fr','pbkdf2:sha256:1000000$qDAkJlUehmaARP1S$39044e949f63765b785007523adcde3d2ad9c2283d71e3ce5ffe58cbf8d86080','ROLE_client','client2',1);
 
-INSERT INTO adresse (nom_adresse, rue, code_postal, ville) VALUES 
-('Domicile', '12 Avenue Jean Jaurès', '90000', 'Belfort'),
-('Travail', '1 Faubourg de Montbéliard', '90000', 'Belfort');
+INSERT INTO adresse (nom_adresse, rue, code_postal, ville, date_utilisation, utilisateur_id_adresse) VALUES 
+('Domicile', '12 Avenue Jean Jaurès', '90000', 'Belfort', '2025-01-01', 2),
+('Travail', '1 Faubourg de Montbéliard', '90000', 'Belfort', '2025-01-01', 2),
+('Domicile', '45 Rue de la République', '75001', 'Paris', '2026-02-27', 3),
+('Bureau', '5 Rue de la Paix', '75002', 'Paris', '2026-02-27', 1);
 
 INSERT INTO fusee (prix_fusee, nom_fusee, stock_fusee, description_fusee, hauteur_explosion, duree_explosion, calibre_fusee, distance_securite, niveau_sonore, image_fusee, certification, effet, pays, couleur_id, categorie_id) VALUES
 (12.50, 'Assortiment 10 fusées electron', 150, 'Un pack de 10 fusées variées pour illuminer le ciel avec des effets électroniques colorés.', 20, 0, 15, 8, 90, 'feu_artifice1.png', 'CE F2', 'Étoiles néon', 'Chine', 4, 1),
