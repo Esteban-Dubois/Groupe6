@@ -12,6 +12,7 @@ fixtures_load = Blueprint('fixtures_load', __name__,
 def fct_fixtures_load():
     mycursor = get_db().cursor()
      
+    mycursor.execute("DROP TABLE IF EXISTS concerne;")
     mycursor.execute("DROP TABLE IF EXISTS ligne_commande;")
     mycursor.execute("DROP TABLE IF EXISTS ligne_panier;")
     mycursor.execute("DROP TABLE IF EXISTS commande;")
