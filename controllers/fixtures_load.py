@@ -173,7 +173,7 @@ def fct_fixtures_load():
     mycursor.execute(sql)
 
     sql = '''
-    NSERT INTO fusee (prix_fusee, nom_fusee, stock_fusee, description_fusee, hauteur_explosion, duree_explosion, calibre_fusee, distance_securite, niveau_sonore, image_fusee, certification, effet, pays, couleur_id, categorie_id) VALUES
+    INSERT INTO fusee (prix_fusee, nom_fusee, stock_fusee, description_fusee, hauteur_explosion, duree_explosion, calibre_fusee, distance_securite, niveau_sonore, image_fusee, certification, effet, pays, couleur_id, categorie_id) VALUES
     (12.50, 'Assortiment 10 fusées electron', 150, 'Un pack de 10 fusées variées pour illuminer le ciel avec des effets électroniques colorés.', 20, 0, 15, 8, 90, 'feu_artifice1.png', 'CE F2', 'Étoiles néon', 'Chine', 4, 1),
     (45.00, 'Fire images', 30, 'Un lot de fusées puissantes offrant un excellent rapport qualité-prix pour vos soirées.', 25, 20, 20, 8, 105, 'feu_artifice2.png', 'CE F2', "Pluie d'or et d'argent", 'Pologne', 2, 4),
     (8.90, 'Assortiment 10 fusées cannon ball power pro', 200, 'Une fusée unique qui monte en flèche avec un sifflement strident avant son explosion finale', 40, 0, 30, 25, 115, 'feu_artifice3.png', 'CE F3', 'Grosses pivoines', 'Chine', 3, 1),
