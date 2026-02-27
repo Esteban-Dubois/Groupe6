@@ -14,7 +14,14 @@ client_commande = Blueprint('client_commande', __name__,
 def client_commande_valide():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    sql = ''' SELECT * FROM ligne_panier WHERE utilisateur_id_panier = %s
+    sql = ''' 
+        SELECT f.nom_fusee AS nom, 
+               lp.quantite AS quantite, 
+               f.prix_fusee AS prix, 
+               f.id_fusee AS id_article
+        FROM ligne_panier lp
+        JOIN fusee f ON lp.fusee_id_panier = f.id_fusee
+        WHERE lp.utilisateur_id_panier = %s
     '''
     mycursor.execute(sql,(id_client, ))
     articles_panier = mycursor.fetchall()
@@ -29,8 +36,13 @@ def client_commande_valide():
     else:
         prix_total = None
     # etape 2 : selection des adresses
+    
+    sql = '''SELECT * FROM adresse WHERE utilisateur_id_adresse = %s'''
+    mycursor.execute(sql,(id_client, ))
+    adresses = mycursor.fetchall()
+    
     return render_template('client/boutique/panier_validation_adresses.html'
-                           #, adresses=adresses
+                           , adresses=adresses
                            , articles_panier=articles_panier
                            , prix_total= prix_total
                            , validation=1
@@ -41,7 +53,8 @@ def client_commande_valide():
 @client_commande.route('/client/commande/add', methods=['POST'])
 def client_commande_add():
     mycursor = get_db().cursor()
-
+    id_adresse_livraison = request.form.get('id_adresse_livraison')
+    id_adresse_facturation = request.form.get('id_adresse_facturation')
     # choix de(s) (l')adresse(s)
 
     id_client = session['id_user']
@@ -53,8 +66,10 @@ def client_commande_add():
         return redirect('/client/article/show')
 
     date_commande = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    tuple_insert = (date_commande, id_client, '1')  # 1 : etat de commande
-    sql = "INSERT INTO commande(date_achat,utilisateur_id_commande,etat_id) VALUES (%s,%s,%s)"
+    tuple_insert = (date_commande, id_client, '1', id_adresse_livraison, id_adresse_facturation) 
+    sql = '''INSERT INTO commande(date_achat, utilisateur_id_commande, etat_id, adresse_id_livrer, adresse_id_facturer) 
+             VALUES (%s, %s, %s, %s, %s)'''
+    mycursor.execute(sql, tuple_insert)
     mycursor.execute(sql, tuple_insert)
     sql = "SELECT last_insert_id() as last_insert_id"
     mycursor.execute(sql)
@@ -62,14 +77,14 @@ def client_commande_add():
     print(commande_id, tuple_insert)
 
     for item in items_panier:
-        tuple_insert = (id_client, item['id_fusee'])
+        tuple_insert = (id_client, item['fusee_id_panier'])
         sql = "DELETE FROM ligne_panier WHERE utilisateur_id_panier = %s AND fusee_id_panier = %s"
         mycursor.execute(sql,tuple_insert)
         sql = "SELECT prix_fusee as prix FROM fusee WHERE id_fusee = %s"
-        mycursor.execute(sql, item['id_fusee'])
+        mycursor.execute(sql, item['fusee_id_panier'])
         prix = mycursor.fetchone()
         sql = "INSERT INTO ligne_commande(commande_id,fusee_id_commande, prix, quantite) VALUES (%s,%s,%s,%s)"
-        tuple_insert = (commande_id['last_insert_id'], item['fusee_id_commande'], prix['prix'], item['quantite'])
+        tuple_insert = (commande_id['last_insert_id'], item['fusee_id_panier'], prix['prix'], item['quantite'])
         print(tuple_insert)
         mycursor.execute(sql, tuple_insert)
     get_db().commit()
