@@ -23,9 +23,18 @@ def client_coordonnee_show():
     mycursor.execute(sql,(id_client,))
     utilisateur = mycursor.fetchone()
     
+    sql = '''
+    SELECT adresse.nom_adresse AS nom, adresse.rue, adresse.code_postal, adresse.ville
+    FROM adresse
+    WHERE adresse.utilisateur_id_adresse = %s;
+    '''
+    
+    mycursor.execute(sql,(id_client,))
+    adresses = mycursor.fetchall()
+    
     return render_template('client/coordonnee/show_coordonnee.html'
                            , utilisateur=utilisateur
-                         #  , adresses=adresses
+                            , adresses=adresses
                          #  , nb_adresses=nb_adresses
                            )
 
@@ -90,6 +99,13 @@ def client_coordonnee_delete_adresse():
     mycursor = get_db().cursor()
     id_client = session['id_user']
     id_adresse= request.form.get('id_adresse')
+    
+    sql = '''
+    DELETE adresse
+    WHERE adresse.utilisateur_id_adresse = %s AND adresse.idAdresse = %s;
+    '''
+    mycursor.execute(sql,(id_client,id_adresse))
+    get_db().commit() 
 
     return redirect('/client/coordonnee/show')
 

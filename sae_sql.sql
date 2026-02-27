@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS ligne_panier;
 DROP TABLE IF EXISTS fusee;
 DROP TABLE IF EXISTS couleur;
 DROP TABLE IF EXISTS categorie;
-DROP TABLE IF EXISTS adresse;
 DROP TABLE IF EXISTS commande;
+DROP TABLE IF EXISTS adresse;
 DROP TABLE IF EXISTS etat;
 DROP TABLE IF EXISTS utilisateur;
 
@@ -160,5 +160,3 @@ INSERT INTO ligne_commande (commande_id, fusee_id_commande, prix, quantite) VALU
 (3, 3, 8.90, 1),
 (3, 12, 1.75, 2),
 (3, 14, 95.00, 1);
-
-DROP TABLE IF EXISTS concerne;
