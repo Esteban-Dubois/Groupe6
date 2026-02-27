@@ -62,7 +62,8 @@ def valid_add_article():
     prix = request.form.get('prix', '')
     description = request.form.get('description', '')
     image = request.files.get('image', '')
-
+    stock = request.form.get('stock', '0') or 0
+    
     if image:
         filename = 'img_upload'+ str(int(2147483647 * random())) + '.png'
         image.save(os.path.join('static/images/', filename))
@@ -70,9 +71,9 @@ def valid_add_article():
         print("erreur")
         filename=None
 
-    sql = ''' INSERT INTO fusee (nom_fusee, image_fusee, prix_fusee, categorie_id, description_fusee) VALUES (%s, %s, %s, %s, %s); '''
+    sql = ''' INSERT INTO fusee (nom_fusee, image_fusee, prix_fusee, categorie_id, description_fusee, stock_fusee) VALUES (%s, %s, %s, %s, %s, %s); '''
 
-    tuple_add = (nom, filename, prix, type_article_id, description)
+    tuple_add = (nom, filename, prix, type_article_id, description, stock)
     print(tuple_add)
     mycursor.execute(sql, tuple_add)
     get_db().commit()
@@ -124,6 +125,7 @@ def edit_article():
     id_fusee AS id_article, 
     nom_fusee AS nom, 
     prix_fusee AS prix, 
+    stock_fusee AS stock,
     categorie_id AS type_article_id, 
     description_fusee AS description, 
     image_fusee AS image
@@ -164,6 +166,7 @@ def valid_edit_article():
     type_article_id = request.form.get('type_article_id', '')
     prix = request.form.get('prix', '')
     description = request.form.get('description')
+    stock = request.form.get('stock') or 0
     sql = '''
        SELECT image_fusee AS image FROM fusee WHERE id_fusee = %s;
        '''
@@ -187,10 +190,11 @@ def valid_edit_article():
     image_fusee = %s, 
     prix_fusee = %s, 
     categorie_id = %s, 
-    description_fusee = %s 
+    description_fusee = %s,
+    stock_fusee = %s
     WHERE id_fusee = %s; 
     '''
-    mycursor.execute(sql, (nom, image_nom, prix, type_article_id, description, id_article))
+    mycursor.execute(sql, (nom, image_nom, prix, type_article_id, description, stock, id_article))
 
     get_db().commit()
     if image_nom is None:
