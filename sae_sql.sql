@@ -160,3 +160,5 @@ INSERT INTO ligne_commande (commande_id, fusee_id_commande, prix, quantite) VALU
 (3, 3, 8.90, 1),
 (3, 12, 1.75, 2),
 (3, 14, 95.00, 1);
+
+DROP TABLE IF EXISTS concerne;
