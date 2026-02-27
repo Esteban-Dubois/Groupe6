@@ -13,7 +13,16 @@ client_coordonnee = Blueprint('client_coordonnee', __name__,
 def client_coordonnee_show():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    utilisateur=[]
+    
+    sql = '''
+    SELECT utilisateur.login, utilisateur.nom_utilisateur AS nom, utilisateur.email 
+    FROM utilisateur
+    WHERE utilisateur.id_utilisateur = %s
+    '''
+    
+    mycursor.execute(sql,(id_client,))
+    utilisateur = mycursor.fetchone()
+    
     return render_template('client/coordonnee/show_coordonnee.html'
                            , utilisateur=utilisateur
                          #  , adresses=adresses
@@ -24,9 +33,18 @@ def client_coordonnee_show():
 def client_coordonnee_edit():
     mycursor = get_db().cursor()
     id_client = session['id_user']
+    
+    sql = '''
+    SELECT utilisateur.login, utilisateur.nom_utilisateur AS nom, utilisateur.email 
+    FROM utilisateur
+    WHERE utilisateur.id_utilisateur = %s
+    '''
+    
+    mycursor.execute(sql,(id_client,))
+    utilisateur = mycursor.fetchone()
 
     return render_template('client/coordonnee/edit_coordonnee.html'
-                           #,utilisateur=utilisateur
+                           ,utilisateur=utilisateur
                            )
 
 @client_coordonnee.route('/client/coordonnee/edit', methods=['POST'])
@@ -37,13 +55,31 @@ def client_coordonnee_edit_valide():
     login = request.form.get('login')
     email = request.form.get('email')
 
-    utilisateur = None
+    sql = '''
+    SELECT utilisateur.id_utilisateur 
+    FROM utilisateur
+    WHERE utilisateur.email = %s or utilisateur.login = %s;
+    '''
+    
+    mycursor.execute(sql,(email,login))
+    utilisateur = mycursor.fetchone()
+
+    #utilisateur = None
     if utilisateur:
         flash(u'votre cet Email ou ce Login existe déjà pour un autre utilisateur', 'alert-warning')
         return render_template('client/coordonnee/edit_coordonnee.html'
                                #, user=user
                                )
 
+    sql='''
+    UPDATE utilisateur
+    SET 
+    utilisateur.nom_utilisateur = %s,
+    utilisateur.login = %s,
+    utilisateur.email = %s
+    WHERE utilisateur.id_utilisateur = %s
+    '''
+    mycursor.execute(sql,(nom, login, email, id_client))
 
     get_db().commit()
     return redirect('/client/coordonnee/show')
