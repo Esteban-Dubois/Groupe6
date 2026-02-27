@@ -14,12 +14,18 @@ client_commande = Blueprint('client_commande', __name__,
 def client_commande_valide():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    sql = ''' selection des articles d'un panier 
+    sql = ''' SELECT * FROM ligne_panier WHERE utilisateur_id_panier = %s
     '''
-    articles_panier = []
+    mycursor.execute(sql,(id_client, ))
+    articles_panier = mycursor.fetchall()
     if len(articles_panier) >= 1:
-        sql = ''' calcul du prix total du panier '''
-        prix_total = None
+        sql = ''' SELECT SUM(ligne_panier.quantite * fusee.prix_fusee) AS total
+                  FROM fusee
+                  JOIN ligne_panier ON fusee.id_fusee = ligne_panier.fusee_id_panier
+                  WHERE ligne_panier.utilisateur_id_panier = %s
+        '''
+        mycursor.execute(sql, (id_client,))
+        prix_total = mycursor.fetchone()['total']
     else:
         prix_total = None
     # etape 2 : selection des adresses
@@ -39,11 +45,12 @@ def client_commande_add():
     # choix de(s) (l')adresse(s)
 
     id_client = session['id_user']
-    sql = ''' selection du contenu du panier de l'utilisateur '''
-    items_ligne_panier = []
-    # if items_ligne_panier is None or len(items_ligne_panier) < 1:
-    #     flash(u'Pas d\'articles dans le ligne_panier', 'alert-warning')
-    #     return redirect('/client/article/show')
+    sql = ''' SELECT * FROM ligne_panier WHERE utilisateur_id_panier = %s '''
+    mycursor.execute(sql,(id_client, ))
+    items_ligne_panier = mycursor.fetchall()
+    if items_ligne_panier is None or len(items_ligne_panier) < 1:
+         flash(u'Pas d\'articles dans le ligne_panier', 'alert-warning')
+         return redirect('/client/article/show')
                                            # https://pynative.com/python-mysql-transaction-management-using-commit-rollback/
     #a = datetime.strptime('my date', "%b %d %Y %H:%M")
 
