@@ -151,18 +151,18 @@ def client_panier_filtre():
     filter_prix_min = request.form.get('filter_prix_min', None)
     filter_prix_max = request.form.get('filter_prix_max', None)
     filter_types = request.form.getlist('filter_types', None)
-    # test des variables puis
+    
     session['filter_word'] = filter_word
     session['filter_prix_min'] = filter_prix_min
     session['filter_prix_max'] = filter_prix_max
     session['filter_types'] = filter_types
-    # mise en session des variables
+    
     return redirect('/client/article/show')
 
 
 @client_panier.route('/client/panier/filtre/suppr', methods=['POST'])
 def client_panier_filtre_suppr():
-    # suppression  des variables en session
+    # supprimer les variables en session
     session.pop('filter_word', None)
     session.pop('filter_prix_min', None)
     session.pop('filter_prix_max', None)
